@@ -77,7 +77,50 @@ func TestYamlFiles(t *testing.T) {
 // have been reviewed for https://github.com/aquasecurity/kube-bench/issues/1881.
 // Older benchmarks share the same defect and can be added here as they are
 // fixed.
-var benchmarksWithoutFileExistenceGuards = []string{"cis-1.12"}
+var benchmarksWithoutFileExistenceGuards = []string{
+	"cis-1.12",
+	"ack-1.0",
+	"aks-1.0",
+	"aks-1.7",
+	"aks-1.8",
+	"cis-1.10",
+	"cis-1.11",
+	"cis-1.20",
+	"cis-1.23",
+	"cis-1.24",
+	"cis-1.24-microk8s",
+	"cis-1.5",
+	"cis-1.6",
+	"cis-1.6-k3s",
+	"cis-1.7",
+	"cis-1.8",
+	"cis-1.9",
+	"cis-2.0",
+	"eks-1.0.1",
+	"eks-1.1.0",
+	"eks-1.2.0",
+	"eks-1.5.0",
+	"eks-1.7.0",
+	"eks-1.8.0",
+	"eks-stig-kubernetes-v1r6",
+	"gke-1.0",
+	"gke-1.2.0",
+	"gke-1.6.0",
+	"gke-1.8.0",
+	"gke-1.9.0",
+	"k3s-cis-1.24",
+	"k3s-cis-1.7",
+	"k3s-cis-1.8",
+	"k3s-cis-1.9",
+	"rke-cis-1.23",
+	"rke-cis-1.24",
+	"rke-cis-1.7",
+	"rke2-cis-1.23",
+	"rke2-cis-1.24",
+	"rke2-cis-1.7",
+	"rke2-cis-1.8",
+	"rke2-cis-1.9",
+}
 
 // checksWhereTheGuardIsDeliberate lists the checks that keep an existence
 // guard on purpose, because the absence of the file is the finding rather
@@ -90,6 +133,37 @@ var checksWhereTheGuardIsDeliberate = map[string]string{
 	// kubelet has no CA to authenticate API server clients against.
 	"cis-1.12/node.yaml 4.1.7": "a missing client CA file is a finding of its own",
 	"cis-1.12/node.yaml 4.1.8": "a missing client CA file is a finding of its own",
+	"ack-1.0/node.yaml 4.1.7":              "a missing client CA file is a finding of its own",
+	"ack-1.0/node.yaml 4.1.8":              "a missing client CA file is a finding of its own",
+	"cis-1.10/node.yaml 4.1.7":             "a missing client CA file is a finding of its own",
+	"cis-1.10/node.yaml 4.1.8":             "a missing client CA file is a finding of its own",
+	"cis-1.11/node.yaml 4.1.7":             "a missing client CA file is a finding of its own",
+	"cis-1.11/node.yaml 4.1.8":             "a missing client CA file is a finding of its own",
+	"cis-1.20/node.yaml 4.1.7":             "a missing client CA file is a finding of its own",
+	"cis-1.20/node.yaml 4.1.8":             "a missing client CA file is a finding of its own",
+	"cis-1.23/node.yaml 4.1.7":             "a missing client CA file is a finding of its own",
+	"cis-1.23/node.yaml 4.1.8":             "a missing client CA file is a finding of its own",
+	"cis-1.24-microk8s/node.yaml 4.1.7":    "a missing client CA file is a finding of its own",
+	"cis-1.24-microk8s/node.yaml 4.1.8":    "a missing client CA file is a finding of its own",
+	"cis-1.24/node.yaml 4.1.7":             "a missing client CA file is a finding of its own",
+	"cis-1.24/node.yaml 4.1.8":             "a missing client CA file is a finding of its own",
+	"cis-1.5/node.yaml 4.1.7":              "a missing client CA file is a finding of its own",
+	"cis-1.5/node.yaml 4.1.8":              "a missing client CA file is a finding of its own",
+	"cis-1.6/node.yaml 4.1.7":              "a missing client CA file is a finding of its own",
+	"cis-1.6/node.yaml 4.1.8":              "a missing client CA file is a finding of its own",
+	"cis-1.7/node.yaml 4.1.7":              "a missing client CA file is a finding of its own",
+	"cis-1.7/node.yaml 4.1.8":              "a missing client CA file is a finding of its own",
+	"cis-1.8/node.yaml 4.1.7":              "a missing client CA file is a finding of its own",
+	"cis-1.8/node.yaml 4.1.8":              "a missing client CA file is a finding of its own",
+	"cis-1.9/node.yaml 4.1.7":              "a missing client CA file is a finding of its own",
+	"cis-1.9/node.yaml 4.1.8":              "a missing client CA file is a finding of its own",
+	"cis-2.0/node.yaml 4.1.7":              "a missing client CA file is a finding of its own",
+	"cis-2.0/node.yaml 4.1.8":              "a missing client CA file is a finding of its own",
+	// The guard here tests for the CNI config directory itself, not a single
+	// file, and the guarded block chains ps/find/xargs across two different
+	// paths rather than a single stat call - simplifying it needs a case-by-case
+	// look, not the mechanical fix applied elsewhere in this pass.
+	"rke2-cis-1.24/master.yaml 1.1.10": "guard covers a directory-existence check ahead of a multi-path find/xargs chain, not a single stat call",
 }
 
 // A check whose audit command guards against a missing file, for example
